@@ -1,11 +1,40 @@
-sketch_container = document.querySelector('#container');
+container = document.querySelector('#container');
+btn = document.querySelector('button');
+span = document.querySelector('span');
 
-function createGrid() {
-  for(let i=0; i < 16 * 16; i++) {
-    let div = document.createElement('div');
-    div.classList.add('divs');
-    sketch_container.appendChild(div);
+function createGrid(size=16) {
+  for(let i=0; i<size; i++) {
+    const row = document.createElement('div');
+    row.classList.add('row');
+
+    for(let j=0; j<size; j++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      row.appendChild(cell);
+    }
+    container.appendChild(row);
   }
-};
+  rows = document.querySelectorAll(".cell");
 
-window.onload = createGrid;
+  rows.forEach(cells => {
+    cells.addEventListener("mouseover", () => {
+      cells.style.backgroundColor = "aqua";
+    });
+});
+}
+
+createGrid();
+
+
+
+btn.addEventListener("click", () => {
+  user_size = prompt("Please enter your sketch pad size(Maximum is 100): ", "16");
+  if (user_size === null || parseInt(user_size) > 100) {
+    return;
+  } else {
+    container.innerHTML = "";
+    span.textContent = `${user_size}*${user_size}`;
+    createGrid(parseInt(user_size));
+  }
+})
+
